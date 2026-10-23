@@ -17,7 +17,10 @@ The system consists of several microservices, each managing its own database to 
 5. **Inventory Service (`inventory-service`)**: Subscribes to `ecommerce.exchange` on RabbitMQ. Deducts stock when an order is created.
 6. **Payment Service (`payment-service`)**: Subscribes to `ecommerce.exchange`. Processes payments asynchronously upon receiving domain events.
 7. **Notification Service (`notification-service`)**: Subscribes to `ecommerce.exchange`. Sends emails/notifications based on domain events.
-8. **Shared Kernel (`shared-kernel`)**: A common library module holding DDD base classes (e.g., `AggregateRoot`) and domain events shared across services.
+8. **Shared Kernel (`shared-kernel`)**: A common library module holding DDD base classes (e.g., `AggregateRoot`), domain events shared across services, and Centralized Logging utilities.
+9. **Cart Service (`cart-service`)**: Manages shopping carts for customers. Uses PostgreSQL.
+10. **Customer Service (`customer-service`)**: Manages customer profiles and data. Uses PostgreSQL.
+11. **Review Service (`review-service`)**: Manages product reviews and ratings. Uses PostgreSQL.
 
 ### Technologies & Frameworks
 
@@ -30,6 +33,12 @@ The system consists of several microservices, each managing its own database to 
 *   **Resilience4j**: Implements Circuit Breaker pattern in the API Gateway.
 *   **Docker & Docker Compose**: For containerized infrastructure.
 *   **Maven**: Build automation tool.
+
+
+### Centralized Logging and Traceability
+The `shared-kernel` includes an advanced logging setup shared across all microservices:
+1. **Logging Aspect (AOP)**: An `@Around` advice automatically logs incoming HTTP requests to all `@RestController`s, including method arguments and execution time.
+2. **MDC Trace ID Filter**: A servlet filter automatically reads or generates an `X-Trace-Id` header for each incoming request and adds it to the Mapped Diagnostic Context (MDC). This allows tracing a single request flow across multiple microservices.
 
 ## Architectural Patterns Explained
 
