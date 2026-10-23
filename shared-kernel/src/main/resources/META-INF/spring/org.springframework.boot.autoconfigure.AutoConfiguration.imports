@@ -1,0 +1,2 @@
+com.uburakcakmak.shared.logging.LoggingAspect
+com.uburakcakmak.shared.logging.MdcLoggingFilter
